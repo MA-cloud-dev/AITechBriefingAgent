@@ -1,0 +1,61 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: tech-briefing-processor
+  
+  # Redis 配置 (使用环境变量)
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:}
+  
+  # 邮件配置 (Gmail SMTP) - 必须配置环境变量
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+
+# 自定义配置
+briefing:
+  # SiliconFlow API - 必须配置环境变量
+  ai:
+    api-key: ${AI_API_KEY}
+    api-url: https://api.siliconflow.cn/v1/chat/completions
+    model: Qwen/Qwen2.5-7B-Instruct
+  
+  # 收件人 - 必须配置环境变量
+  recipient-email: ${RECIPIENT_EMAIL}
+  
+  # Redis Key 前缀 (与Python端一致)
+  redis-key-prefix: tech_briefing:articles
+  
+  # 最大推送文章数
+  max-articles: 10
+  
+  # 兴趣标签 (按优先级排序，越靠前优先级越高)
+  # AI细分：AI应用(可直接跑的项目) > AI前沿(理论/论文)
+  interest-tags:
+    - AI应用
+    - AI前沿
+    - AI
+    - Python
+    - Java
+    - Go
+    - 架构
+    - 前端
+  
+  # 足球API - 必须配置环境变量
+  football:
+    api-key: ${FOOTBALL_API_KEY:}
+    enabled: false
